@@ -1,0 +1,19 @@
+{
+  "name": "urbanbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "urbanbot.js",
+  "scripts": {
+    "start": "node urbanbot",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "co": "^4.6.0",
+    "dayjs": "^1.11.5",
+    "node-fetch": "^3.2.10",
+    "serverless": "^3.23.0"
+  },
+  "type": "module"
+}
