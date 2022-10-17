@@ -1,3 +1,10 @@
+const express = require("express");
+const app = express();
+const PORT = process.env.PORT || 3030;
+
+
+
+
 import fetch, {
     Headers
 } from 'node-fetch'
@@ -73,3 +80,7 @@ const main = async () => {
 };
 
 main();
+
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+  });
