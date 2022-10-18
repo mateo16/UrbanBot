@@ -1,6 +1,9 @@
 import fetch, {
     Headers
 } from 'node-fetch'
+import dayjs from 'dayjs';
+
+let date = dayjs().format('YYYYMMDD')
 
 var myHeaders = new Headers({
     "Authorization": "Bearer MjAyMjEwMTUxOTQwMjh8NmRmNDJiNzM0NWIzNDA1Yjg5NWU0YjY2YzRlMGY3Y2J8ZWMxZDM4ZDdkMzU5NDhkMGE2MGNkOGMwYjhmYjlkZjl8NnxBcmdlbnRpbmEgU3RhbmRhcmQgVGltZXxlcy1FU3wxODU4YjY0ZDQwYmQ0N2VlODAyNTU0N2U2ODgzM2ZjYnx8fHwxfDF8MHwxMDB8fHw1OHw1NTg1fDB8Y29tLm15d2VsbG5lc3M1.430C60AE825FD3A319D5A9B7BDD3A9CC37E3FDBAA342536197BBB8CDF3B95EEC5B05EC8AF7406DBA2F19704BD083850C1E42C7EE868BB5A965973660FE7E94F7",
@@ -12,12 +15,12 @@ var raw = JSON.stringify({
         "timeScope": "Custom",
         "dateLimit": 0,
         "eventType": "Class",
-        "dateStart": 20221018
+        "dateStart": date
 });
 var raw2= JSON.stringify({
     "station": "9",
     "userId": "1858b64d-40bd-47ee-8025-547e68833fcb",
-    "partitionDate": 20221018
+    "partitionDate": date
   });
 
 var requestOptions = {
@@ -59,7 +62,6 @@ function getId(classes){
 }
 
 const main = async () => {
-
     try {
         let classes = await getClasses();
         let id = getId(classes);
