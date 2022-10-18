@@ -1,7 +1,3 @@
-import express from "express"
-const app = express();
-const PORT = process.env.PORT || 3030;
-
 import fetch, {
     Headers
 } from 'node-fetch'
@@ -13,17 +9,15 @@ var myHeaders = new Headers({
 });
 
 var raw = JSON.stringify({
-    "fromDay": 20221015,
-    "eventTypes": [
-        "Class",
-        "Service"
-    ],
-    "waitingListEvents": false
+        "timeScope": "Custom",
+        "dateLimit": 0,
+        "eventType": "Class",
+        "dateStart": 20221018
 });
 var raw2= JSON.stringify({
     "station": "9",
     "userId": "1858b64d-40bd-47ee-8025-547e68833fcb",
-    "partitionDate": 20221015
+    "partitionDate": 20221018
   });
 
 var requestOptions = {
@@ -41,7 +35,7 @@ var requestOptions2 = {
 
 async function getClasses() {
     try {
-        let res = await fetch("https://services.mywellness.com/Core/User/1858b64d-40bd-47ee-8025-547e68833fcb/MyCalendarEvents?_c=es-AR", requestOptions);
+        let res = await fetch("https://services.mywellness.com/Core/Facility/1c00b0c2-d2b7-46fe-bb98-6eef3be0ed7c/SearchCalendarEvents?_c=es-AR", requestOptions);
         return await res.json();
     } catch (error) {
         console.log(error);
@@ -54,9 +48,14 @@ async function book(id){
   .catch(error => console.log('error', error));
 }
 function getId(classes){
-    //console.log(JSON.stringify(classes))
-    let id = classes.data.eventItems[classes.data.eventItems.length - 1].calendarEventItem.id
-    return id;
+
+    let clases = classes.data.eventItems
+    let laclase = clases.find((o) =>{
+        if(o.startHour === 16 && o.name === "FORCE 6"){
+            return true;
+        }
+    })
+    return laclase.id;
 }
 
 const main = async () => {
@@ -77,7 +76,3 @@ const main = async () => {
 };
 
 main();
-
-app.listen(PORT, () => {
-    console.log(`server started on port ${PORT}`);
-  });
