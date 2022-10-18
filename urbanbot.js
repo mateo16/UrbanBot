@@ -54,7 +54,7 @@ function getId(classes){
 
     let clases = classes.data.eventItems
     let laclase = clases.find((o) =>{
-        if(o.startHour === 16 && o.name === "FORCE 6"){
+        if(o.startHour === 18 && o.name === "FORCE 6"){
             return true;
         }
     })
