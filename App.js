@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 
-import Start from "./stack/StartStack";
+import Start from "./StartStack";
 
 export default function App() {
   
