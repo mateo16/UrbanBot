@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.13",
     "dayjs": "^1.11.5",
     "expo": "~46.0.16",
     "expo-cli": "^6.0.6",
