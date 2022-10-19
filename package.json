@@ -1,20 +1,24 @@
 {
-  "name": "urbanbot",
+  "name": "urbansixbot",
   "version": "1.0.0",
-  "description": "",
-  "main": "urbanbot.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "node urbanbot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "co": "^4.6.0",
     "dayjs": "^1.11.5",
-    "express": "^4.18.2",
-    "node-fetch": "^3.2.10",
-    "serverless": "^3.23.0"
+    "expo": "~46.0.16",
+    "expo-cli": "^6.0.6",
+    "expo-status-bar": "~1.4.0",
+    "react": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-web": "~0.18.7"
   },
-  "type": "module"
+  "devDependencies": {
+    "@babel/core": "^7.12.9"
+  },
+  "private": true
 }
