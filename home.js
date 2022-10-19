@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Button } from 'react-native';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import dayjs from 'dayjs';
 
-export default function App() {
+export default function Home() {
   const currentDate = dayjs().format('YYYYMMDD')
   let userId = "1858b64d-40bd-47ee-8025-547e68833fcb";
 
@@ -67,10 +68,13 @@ async function reservar(){
         let id = getId(classes);
         book(id);
 }
+
+const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <Text>LEALOIS APPLICATION</Text>
       <Button onPress={() => reservar()} title="Reservar"/>
+      <Button onPress={()=> navigation.navigate("Login")} title="LogIn"/>
       <StatusBar style="auto" />
     </View>
   );
