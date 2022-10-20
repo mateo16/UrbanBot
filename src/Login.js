@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { getAuth, signInWithEmailAndPassword,updateProfile  } from "firebase/auth"
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebase-config";
 
@@ -26,6 +26,7 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        console.log(user)
         navigation.navigate("Index");
       })
       .catch((error) => {
@@ -34,7 +35,17 @@ export default function Login() {
         Alert.alert(errorMessage)
       });
   }
-
+  const handleUpdate = () => {
+    updateProfile(auth.currentUser, {
+      displayName: "1858b64d-40bd-47ee-8025-547e68833fcb", photoURL: "FORCE 6"
+    }).then(() => {
+      console.log("Profile updated!");
+      // ...
+    }).catch((error) => {
+      console.log(error);
+      // ...
+    });
+  }
   return (
     <View style={styles.container}>
 
@@ -58,6 +69,9 @@ export default function Login() {
           onChangeText={(password) => setPassword(password)}
         />
       </View>
+      <TouchableOpacity onPress={handleUpdate} style={styles.loginBtn}>
+        <Text style={styles.loginBtnText} >update</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={handleSignIn} style={styles.loginBtn}>
         <Text style={styles.loginBtnText} >LOG IN</Text>
