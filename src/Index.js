@@ -87,7 +87,6 @@ export default function Home() {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.titulo}>LEALOIS APPLICATION</Text>
         <Image style={styles.img} source={require('../assets/logo.jpg')} />
         <TouchableOpacity>
           <Text style={styles.botonReserva} onPress={() => reservar()}> Reservar </Text>
@@ -99,21 +98,53 @@ export default function Home() {
           <Text style={styles.botonLogin} onPress={() => navigation.navigate("CreateAccount")}> CreateAccount </Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
+        <View style={styles.week}>
+      <TouchableOpacity>
+          <Text style={styles.botonWeek}> Lu </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.botonWeek}> Ma </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.botonWeek}> Ma </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.botonWeek}> Ma </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.botonWeek}> Ma </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.botonWeek}> Ma </Text>
+        </TouchableOpacity>
+      </View>
       </View>
 
-      <View style={styles.container2}>
-        <WeekdayPicker
-          days={days}
-          onChange={(days) => console.log(days)}
-          style={styles.picker}
-          dayStyle={styles.day}
-        />
-      </View>
+
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  week:{
+    flex: 1,
+    flexDirection:"row",
+    backgroundColor: "black",
+    justifyContent:"center",
+  },
+  botonWeek:{
+    justifyContent: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 1000,
+    marginBottom: 20,
+    width: 50,
+    height:50,
+    marginLeft:7
+  },
   container: {
     flex: 1,
     backgroundColor: "black",

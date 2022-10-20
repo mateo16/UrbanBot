@@ -1,9 +1,55 @@
-import React from 'react'
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View, Button, TouchableOpacity, Image} from "react-native";
 import { TextInput } from 'react-native-gesture-handler';
+import {getAuth,updateProfile,createUserWithEmailAndPassword} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "./firebase-config";
 
-function CreateAccount() {
+
+
+export default function CreateAccount() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState("");
+  const [type, setType] = useState("");
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+ 
+  const CreateUser = () =>{
+    console.log('aaa')
+    createUserWithEmailAndPassword(auth,email, password).then(function(){
+      // Handle Errors here.
+      handleUpdate()
+    }, function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // [START_EXCLUDE]
+      if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+      } else {
+          console.error(error);
+      }
+      // [END_EXCLUDE]
+  });}
+  
+  const handleUpdate = () => {
+    updateProfile(auth.currentUser, {
+      displayName: userId,
+      photoURL: type,
+    })
+      .then(() => {
+        console.log("Profile updated!");
+        // ...
+      })
+      .catch((error) => {
+        console.log(error);
+        // ...
+      });
+  };
+
   return (
     <>
    
@@ -11,14 +57,13 @@ function CreateAccount() {
 
       <Image style={styles.img} source={require('../assets/logo.jpg')} />
 
-        <TextInput style={styles.textardo} type="email" placeholderTextColor={"white"}placeholder="Mail" />
-        <TextInput style={styles.textardo} type="password" placeholderTextColor={"white"} placeholder="Password" />
-        <TextInput style={styles.textardo} type="text" placeholderTextColor={"white"} placeholder="Id" />
-        <TextInput style={styles.textardo} type="date" placeholderTextColor={"white"} placeholder="Vencimiento" />
-        <TextInput style={styles.textardo} type="text" placeholderTextColor={"white"} placeholder="Clase" />
+        <TextInput style={styles.textardo} type="email" placeholderTextColor={"white"}placeholder="Mail" onChangeText={(email) => setEmail(email)}/>
+        <TextInput style={styles.textardo} type="password" placeholderTextColor={"white"} placeholder="Password" onChangeText={(password) => setPassword(password)}/>
+        <TextInput style={styles.textardo} type="text" placeholderTextColor={"white"} placeholder="Id" onChangeText={(userId) => setUserId(userId)}/>
+        <TextInput style={styles.textardo} type="text" placeholderTextColor={"white"} placeholder="Clase" onChangeText={(type) => setType(type)}/>
   
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>Create Account</Text>
+      <TouchableOpacity style={styles.loginBtn} o>
+        <Text onPress={CreateUser}style={styles.loginText}>Create Account</Text>
       </TouchableOpacity>
       </View>
       </>
@@ -67,5 +112,3 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   })
-
-export default CreateAccount

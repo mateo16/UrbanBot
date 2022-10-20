@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, Alert,} from "react-native";
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Alert,Image} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import {getAuth, signInWithEmailAndPassword, updateProfile,} from "firebase/auth";
+import {getAuth, signInWithEmailAndPassword, updateProfile,createUserWithEmailAndPassword} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebase-config";
 
@@ -27,44 +27,25 @@ export default function Login() {
         Alert.alert(errorMessage);
       });
   };
-  const handleUpdate = () => {
-    updateProfile(auth.currentUser, {
-      displayName: "1858b64d-40bd-47ee-8025-547e68833fcb",
-      photoURL: "FORCE 6",
-    })
-      .then(() => {
-        console.log("Profile updated!");
-        // ...
-      })
-      .catch((error) => {
-        console.log(error);
-        // ...
-      });
-  };
   return (
     <View style={styles.container}>
+      <Image style={styles.img} source={require('../assets/logo.jpg')} />
       <StatusBar style="auto" />
-      <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Email."
-          placeholderTextColor="#003f5c"
+          placeholder="Email"
+          placeholderTextColor="white"
           onChangeText={(email) => setEmail(email)}
         />
-      </View>
 
-      <View style={styles.inputView}>
+
         <TextInput
           style={styles.TextInput}
-          placeholder="Password."
-          placeholderTextColor="#003f5c"
+          placeholder="Password"
+          placeholderTextColor="white"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
         />
-      </View>
-      <TouchableOpacity onPress={handleUpdate} style={styles.loginBtn}>
-        <Text style={styles.loginBtnText}>update</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity onPress={handleSignIn} style={styles.loginBtn}>
         <Text style={styles.loginBtnText}>LOG IN</Text>
@@ -89,10 +70,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   TextInput: {
-    height: 50,
-    flex: 1,
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    color: "white",
+    borderColor: "white",
+    borderRadius: 10,
+    width: "80%",
     padding: 10,
-    marginLeft: 20,
   },
   loginBtn: {
     width: "80%",
@@ -104,8 +89,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#e0103b",
   },
   loginBtnText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
     color: "white",
   },
+  img: {
+    width: 300,
+    height: 75,
+    marginBottom: 20,
+  }
 });
