@@ -95,6 +95,9 @@ export default function Home() {
         <TouchableOpacity>
           <Text style={styles.botonLogin} onPress={() => navigation.navigate("Login")}> Log In </Text>
         </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.botonLogin} onPress={() => navigation.navigate("CreateAccount")}> CreateAccount </Text>
+        </TouchableOpacity>
         <StatusBar style="auto" />
       </View>
 

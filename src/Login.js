@@ -1,22 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Alert,} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, signInWithEmailAndPassword,updateProfile  } from "firebase/auth"
+import {getAuth, signInWithEmailAndPassword, updateProfile,} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebase-config";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
 
   const navigation = useNavigation();
   const app = initializeApp(firebaseConfig);
@@ -26,30 +18,31 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user)
+        console.log(user);
         navigation.navigate("Index");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        Alert.alert(errorMessage)
+        Alert.alert(errorMessage);
       });
-  }
+  };
   const handleUpdate = () => {
     updateProfile(auth.currentUser, {
-      displayName: "1858b64d-40bd-47ee-8025-547e68833fcb", photoURL: "FORCE 6"
-    }).then(() => {
-      console.log("Profile updated!");
-      // ...
-    }).catch((error) => {
-      console.log(error);
-      // ...
-    });
-  }
+      displayName: "1858b64d-40bd-47ee-8025-547e68833fcb",
+      photoURL: "FORCE 6",
+    })
+      .then(() => {
+        console.log("Profile updated!");
+        // ...
+      })
+      .catch((error) => {
+        console.log(error);
+        // ...
+      });
+  };
   return (
     <View style={styles.container}>
-
-
       <StatusBar style="auto" />
       <View style={styles.inputView}>
         <TextInput
@@ -70,11 +63,11 @@ export default function Login() {
         />
       </View>
       <TouchableOpacity onPress={handleUpdate} style={styles.loginBtn}>
-        <Text style={styles.loginBtnText} >update</Text>
+        <Text style={styles.loginBtnText}>update</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={handleSignIn} style={styles.loginBtn}>
-        <Text style={styles.loginBtnText} >LOG IN</Text>
+        <Text style={styles.loginBtnText}>LOG IN</Text>
       </TouchableOpacity>
     </View>
   );
@@ -114,5 +107,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
-  }
+  },
 });
