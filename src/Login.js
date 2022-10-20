@@ -8,14 +8,36 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import {useNavigation } from "@react-navigation/native";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from "firebase/auth"
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "./firebase-config";
  
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const navigation = useNavigation();
+  const app = initializeApp(firebaseConfig); 
+  const auth = getAuth(app);
+
+  const handleSignIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigation.navigate("Index");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        Alert.alert(errorMessage)
+      });
+  }
  
   return (
     <View style={styles.container}>
@@ -41,12 +63,8 @@ export default function Login() {
         />
       </View>
  
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
- 
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text onPress={()=> navigation.navigate("Index")} style={styles.loginText}>LOGIN</Text>
+      <TouchableOpacity onPress={handleSignIn} style={styles.loginBtn}>
+        <Text style={styles.loginBtnText} >LOGIN</Text>
       </TouchableOpacity>
     </View>
   );
@@ -55,7 +73,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -65,7 +83,7 @@ const styles = StyleSheet.create({
   },
  
   inputView: {
-    backgroundColor: "#FFC0CB",
+    backgroundColor: "#e0103b",
     borderRadius: 30,
     width: "70%",
     height: 45,
@@ -93,6 +111,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 40,
-    backgroundColor: "#FF1493",
+    backgroundColor: "#e0103b",
   },
+  loginBtnText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  }
 });
