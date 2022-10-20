@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, Image} from "react-na
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import WeekdayPicker from "react-native-weekday-picker";
+import { SafeAreaView } from "react-navigation";
 
 
 export default function Home() {
@@ -82,14 +83,15 @@ export default function Home() {
 
   const navigation = useNavigation();
 
-  let days = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1 };
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
     <>
+    <SafeAreaView style={styles.bigContainer}>
       <View style={styles.container}>
         <Image style={styles.img} source={require('../assets/logo.jpg')} />
-        <TouchableOpacity>
-          <Text style={styles.botonReserva} onPress={() => reservar()}> Reservar </Text>
+        <TouchableOpacity style={styles.botonReserva}>
+          <Text style={styles.textReserva} onPress={() => reservar()}> Reservar </Text>
         </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.botonLogin} onPress={() => navigation.navigate("Login")}> Log In </Text>
@@ -99,38 +101,46 @@ export default function Home() {
         </TouchableOpacity>
         <StatusBar style="auto" />
         <View style={styles.week}>
-      <TouchableOpacity>
-          <Text style={styles.botonWeek}> Lu </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.botonWeek}> Ma </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.botonWeek}> Ma </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.botonWeek}> Ma </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.botonWeek}> Ma </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.botonWeek}> Ma </Text>
-        </TouchableOpacity>
-      </View>
+          {
+            days.map(day => {
+              return(
+          <TouchableOpacity style={styles.weekDay}>
+            <Text style={styles.textDay}> {day} </Text>
+          </TouchableOpacity>)})
+          }
+        </View>
       </View>
 
-
+      </SafeAreaView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  bigContainer:{
+    flex: 1,
+    backgroundColor: "black",
+  },
   week:{
     flex: 1,
     flexDirection:"row",
     backgroundColor: "black",
     justifyContent:"center",
+  },
+  weekDay:{
+    flex: 1,
+    justifyContent:"center",
+    alignItems:"center",
+    margin: 2,
+    width:55,
+    height:30,
+    backgroundColor: "#e0103b",
+    borderRadius: 15,
+  },
+  textDay:{
+    fontWeight:"italic",
+    color:"black",
+    fontSize: 12,
   },
   botonWeek:{
     justifyContent: "center",
@@ -164,12 +174,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   botonReserva: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-    backgroundColor: "black",
-    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e0103b",
     borderRadius: 10,
+    marginBottom: 20,
+    width: 280,
+    height:50,
+    paddingTop: 15,
+  },
+  textReserva: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+    backgroundColor: "#e0103b",
+    
     marginBottom: 20,
   },
   botonLogin: {
