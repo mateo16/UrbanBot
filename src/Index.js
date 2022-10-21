@@ -1,10 +1,17 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  Image,
+  Modal,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import WeekdayPicker from "react-native-weekday-picker";
-import { SafeAreaView } from "react-navigation";
-
+import {SimpleModal} from "./SimpleModal";
 
 export default function Home() {
   const currentDate = dayjs().format("YYYYMMDD");
@@ -85,33 +92,62 @@ export default function Home() {
 
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  const [isModalVisible, setisModalVisible] = useState(false);
+
+  const changeModalVisible = (bool) => {
+    setisModalVisible(bool);
+  };
+
   return (
     <>
-    <SafeAreaView style={styles.bigContainer}>
-      <View style={styles.container}>
-        <Image style={styles.img} source={require('../assets/logo.jpg')} />
-        <TouchableOpacity style={styles.botonReserva}>
-          <Text style={styles.textReserva} onPress={() => reservar()}> Reservar </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.botonLogin} onPress={() => navigation.navigate("Login")}> Log In </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.botonLogin} onPress={() => navigation.navigate("CreateAccount")}> CreateAccount </Text>
-        </TouchableOpacity>
-        <StatusBar style="auto" />
-        <View style={styles.week}>
-          {
-            days.map(day => {
-              return(
-          <TouchableOpacity style={styles.weekDay}>
-            <Text style={styles.textDay}> {day} </Text>
-          </TouchableOpacity>)})
-          }
+      <SafeAreaView style={styles.bigContainer}>
+        <View style={styles.container}>
+          <Image style={styles.img} source={require("../assets/logo.jpg")} />
+          <TouchableOpacity style={styles.botonReserva}>
+            <Text style={styles.textReserva} onPress={() => reservar()}>
+              {" "}
+              Reservar{" "}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
+              style={styles.botonLogin}
+              onPress={() => navigation.navigate("Login")}
+            >
+              {" "}
+              Log In{" "}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
+              style={styles.botonLogin}
+              onPress={() => navigation.navigate("CreateAccount")}
+            >
+              {" "}
+              CreateAccount{" "}
+            </Text>
+          </TouchableOpacity>
+          <StatusBar style="auto" />
+          <View style={styles.week}>
+            {days.map((day) => {
+              return (
+                <TouchableOpacity 
+                onPress={() => changeModalVisible(true)}
+                style={styles.weekDay}>
+                  <Text style={styles.textDay}> {day} </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <Modal
+            transparent={true}
+            animationType='fade'
+            visible={isModalVisible}
+            onRequestClose={() => changeModalVisible(false)}
+          >
+              <SimpleModal changeModalVisible={changeModalVisible} />
+          </Modal>
         </View>
-      </View>
-      
-
       </SafeAreaView>
     </>
   );
@@ -119,32 +155,32 @@ export default function Home() {
 
 // A CASSA CHORRO, MAS COMMITWS, DAME EL 60 LADRON
 const styles = StyleSheet.create({
-  bigContainer:{
+  bigContainer: {
     flex: 1,
     backgroundColor: "black",
   },
-  week:{
+  week: {
     flex: 1,
-    flexDirection:"row",
+    flexDirection: "row",
     backgroundColor: "black",
-    justifyContent:"center",
+    justifyContent: "center",
   },
-  weekDay:{
+  weekDay: {
     flex: 1,
-    justifyContent:"center",
-    alignItems:"center",
+    justifyContent: "center",
+    alignItems: "center",
     margin: 2,
-    width:55,
-    height:30,
+    width: 55,
+    height: 30,
     backgroundColor: "#e0103b",
     borderRadius: 15,
   },
-  textDay:{
-    fontWeight:"italic",
-    color:"black",
+  textDay: {
+    fontWeight: "italic",
+    color: "black",
     fontSize: 12,
   },
-  botonWeek:{
+  botonWeek: {
     justifyContent: "center",
     fontSize: 16,
     fontWeight: "bold",
@@ -154,8 +190,8 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     marginBottom: 20,
     width: 50,
-    height:50,
-    marginLeft:7
+    height: 50,
+    marginLeft: 7,
   },
   container: {
     flex: 1,
@@ -182,7 +218,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     width: 280,
-    height:50,
+    height: 50,
     paddingTop: 15,
   },
   textReserva: {
@@ -190,7 +226,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
     backgroundColor: "#e0103b",
-    
+
     marginBottom: 20,
   },
   botonLogin: {
