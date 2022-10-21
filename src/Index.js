@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import SimpleModal from "./SimpleModal";
+import ModalPicker from "./ModalPicker";
 import React, { useState } from "react";
 
 export default function Home() {
@@ -94,9 +94,14 @@ export default function Home() {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const [isModalVisible, setisModalVisible] = useState(false);
+  const [chooseData, setChooseData] = useState("Choose");
 
-   const changeModalVisible = (bool) => {
+   const changeModalVisibility = (bool) => {
     setisModalVisible(bool);
+  };
+
+  const setData = (horario) => {
+    setChooseData(horario);
   };
 
   return (
@@ -133,7 +138,7 @@ export default function Home() {
             {days.map((day) => {
               return (
                 <TouchableOpacity 
-                onPress={() => changeModalVisible(true)}
+                onPress={() => changeModalVisibility(true)}
                 style={styles.weekDay}>
                   <Text style={styles.textDay}> {day} </Text>
                 </TouchableOpacity>
@@ -144,10 +149,13 @@ export default function Home() {
             transparent={true}
             animationType='fade'
             visible={isModalVisible}
-            onRequestClose={() => changeModalVisible(false)}
+            nRequestClose={() => changeModalVisibility(false)}
           >
               
-              <SimpleModal changeModalVisible={changeModalVisible} />
+              <ModalPicker 
+              changeModalVisibility={changeModalVisibility} 
+              setData={setData} 
+              />
           </Modal>
         </View>
       </SafeAreaView>
