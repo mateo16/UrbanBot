@@ -110,12 +110,14 @@ export default function Home() {
           }
         </View>
       </View>
+      
 
       </SafeAreaView>
     </>
   );
 }
 
+// A CASSA CHORRO, MAS COMMITWS, DAME EL 60 LADRON
 const styles = StyleSheet.create({
   bigContainer:{
     flex: 1,
