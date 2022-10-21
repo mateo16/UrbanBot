@@ -8,6 +8,10 @@ const HORARIOS = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 
 const ModalPicker = (props) => {
 
+    const selectedTime = props.week[props.selectedDate].horarios;
+
+    console.log(selectedTime)
+
     const onPressItem = (horario) => {
         props.changeModalVisibility(false);
         props.setData(horario);
@@ -20,7 +24,7 @@ const ModalPicker = (props) => {
                 style={styles.horario}
                 onPress={() => onPressItem(item)}
             >
-                <Text style={styles.textHorario}>
+                <Text style={(selectedTime.indexOf(item) === -1 ? styles.textHorario :  styles.textHorario2)}>
                     {item}               
                 </Text>
             </TouchableOpacity>
@@ -65,6 +69,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 20,
         fontWeight: 'bold',
+    },
+    textHorario2: {
+        fontSize: 20,
+        margin: 20,
+        fontWeight: 'bold',
+        backgroundColor: "green"
     },
 
 });

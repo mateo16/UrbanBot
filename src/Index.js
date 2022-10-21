@@ -12,10 +12,19 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import ModalPicker from "./ModalPicker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Home({route}) {
+
+  const user = route.params;
+
   const currentDate = dayjs().format("YYYYMMDD");
+
+  var today = new Date();
+
+  //console.log(today.getDay());
+  //console.log(user);
+
   let userId = "1858b64d-40bd-47ee-8025-547e68833fcb";
 
   var myHeaders = new Headers({
@@ -94,15 +103,45 @@ export default function Home() {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const [isModalVisible, setisModalVisible] = useState(false);
-  const [chooseData, setChooseData] = useState("Choose");
+  const [selectedDate, setSelectedDate] = useState(-1);
 
    const changeModalVisibility = (bool) => {
     setisModalVisible(bool);
   };
+  const [week,setWeek] = useState([{
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  }
+  ])
 
   const setData = (horario) => {
-    setChooseData(horario);
+    if(week[selectedDate].horarios.length < 2 && week[selectedDate].horarios.indexOf(horario) == -1){
+      week[selectedDate].horarios = [...week[selectedDate].horarios, horario]
+    }else if(week[selectedDate].horarios.indexOf(horario) != -1){
+      const index = week[selectedDate].horarios.indexOf(horario);
+      week[selectedDate].horarios.splice(index, 1);
+    }
   };
+
+  const weekBtn = (i) =>{
+    changeModalVisibility(true)
+    setSelectedDate(i)
+  } 
+
 
   return (
     <>
@@ -118,15 +157,6 @@ export default function Home() {
           <TouchableOpacity>
             <Text
               style={styles.botonLogin}
-              onPress={() => navigation.navigate("Login")}
-            >
-              {" "}
-              Log In{" "}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text
-              style={styles.botonLogin}
               onPress={() => navigation.navigate("CreateAccount")}
             >
               {" "}
@@ -135,10 +165,10 @@ export default function Home() {
           </TouchableOpacity>
           <StatusBar style="auto" />
           <View style={styles.week}>
-            {days.map((day) => {
+            {days.map((day,i) => {
               return (
                 <TouchableOpacity 
-                onPress={() => changeModalVisibility(true)}
+                onPress={() => weekBtn(i)}
                 style={styles.weekDay}>
                   <Text style={styles.textDay}> {day} </Text>
                 </TouchableOpacity>
@@ -154,7 +184,9 @@ export default function Home() {
               
               <ModalPicker 
               changeModalVisibility={changeModalVisibility} 
-              setData={setData} 
+              setData={setData}
+              week={week}
+              selectedDate={selectedDate}
               />
           </Modal>
         </View>
