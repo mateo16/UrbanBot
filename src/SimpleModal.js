@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions} from "react-native";
-
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT_MODAL = 150;
 

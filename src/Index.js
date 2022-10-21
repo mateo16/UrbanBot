@@ -11,7 +11,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import {SimpleModal} from "./SimpleModal";
+import SimpleModal from "./SimpleModal";
+import React, { useState } from "react";
 
 export default function Home() {
   const currentDate = dayjs().format("YYYYMMDD");
@@ -94,7 +95,7 @@ export default function Home() {
 
   const [isModalVisible, setisModalVisible] = useState(false);
 
-  const changeModalVisible = (bool) => {
+   const changeModalVisible = (bool) => {
     setisModalVisible(bool);
   };
 
@@ -145,6 +146,7 @@ export default function Home() {
             visible={isModalVisible}
             onRequestClose={() => changeModalVisible(false)}
           >
+              
               <SimpleModal changeModalVisible={changeModalVisible} />
           </Modal>
         </View>
@@ -153,7 +155,7 @@ export default function Home() {
   );
 }
 
-// A CASSA CHORRO, MAS COMMITWS, DAME EL 60 LADRON
+
 const styles = StyleSheet.create({
   bigContainer: {
     flex: 1,
@@ -244,3 +246,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+
