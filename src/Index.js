@@ -142,6 +142,8 @@ export default function Home({route}) {
     setSelectedDate(i)
   } 
 
+ 
+
 
   return (
     <>
@@ -176,11 +178,13 @@ export default function Home({route}) {
             })}
           </View>
           <Modal
+            style={styles.modal}
             transparent={true}
             animationType='fade'
             visible={isModalVisible}
             nRequestClose={() => changeModalVisibility(false)}
           >
+              
               
               <ModalPicker 
               changeModalVisibility={changeModalVisibility} 
@@ -284,6 +288,25 @@ const styles = StyleSheet.create({
     width: 300,
     height: 75,
     marginBottom: 20,
+  },
+  goBackBtn: {
+    backgroundColor: "black",
+    width: 100,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    position: "absolute",
+  },
+  goBackText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
