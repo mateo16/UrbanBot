@@ -10,6 +10,8 @@ const ModalPicker = (props) => {
 
     const selectedTime = props.week[props.selectedDate].horarios;
 
+    console.log(selectedTime)
+
     const onPressItem = (horario) => {
         props.changeModalVisibility(false);
         props.setData(horario);
