@@ -204,8 +204,11 @@ const styles = StyleSheet.create({
   bigContainer: {
     flex: 1,
     backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
   },
   week: {
+    paddingTop: 20,
     flex: 1,
     flexDirection: "row",
     backgroundColor: "black",
@@ -244,12 +247,14 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: 180,
   },
   container2: {
     flex: 1,
     backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
+    
   },
   titulo: {
     fontSize: 30,
@@ -265,15 +270,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 280,
     height: 50,
-    paddingTop: 15,
+
+   
   },
   textReserva: {
     fontSize: 15,
     fontWeight: "bold",
     color: "black",
     backgroundColor: "#e0103b",
-
-    marginBottom: 20,
+    
   },
   botonLogin: {
     fontSize: 20,
