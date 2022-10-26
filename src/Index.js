@@ -15,6 +15,7 @@ import ModalPicker from "./ModalPicker";
 import React, { useEffect, useState } from "react";
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
+import { WeekContext} from "./context/weekContext";
 
 const TASK_NAME = "BOOK_TASK"
 
@@ -24,7 +25,7 @@ const currentDate = dayjs().format("YYYYMMDD");
 //console.log(today.getDay());
 //console.log(user);
 
-let userId = "1858b64d-40bd-47ee-8025-547e68833fcb";
+
 
 var myHeaders = new Headers({
   Authorization:
@@ -40,11 +41,7 @@ var raw = JSON.stringify({
   eventType: "Class",
   dateStart: currentDate,
 });
-var raw2 = JSON.stringify({
-  station: "9",
-  userId: userId,
-  partitionDate: currentDate,
-});
+
 
 var requestOptions = {
   method: "POST",
@@ -52,12 +49,17 @@ var requestOptions = {
   body: raw,
   redirect: "follow",
 };
-var requestOptions2 = {
-  method: "POST",
-  headers: myHeaders,
-  body: raw2,
-  redirect: "follow",
-};
+
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('user')
+    if(value !== null) {
+      return value
+    }
+  } catch(e) {
+    // error reading value
+  }
+}
 
 async function getClasses() {
   try {
@@ -71,6 +73,20 @@ async function getClasses() {
   }
 }
 async function book(id) {
+  const user = getData()
+  console.log(user)
+
+  var raw2 = JSON.stringify({
+    station: "9",
+    userId: user,
+    partitionDate: currentDate,
+  });
+  var requestOptions2 = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw2,
+    redirect: "follow",
+  };
   fetch(
     "https://services.mywellness.com/core/calendarevent/" +
       id +
@@ -93,7 +109,7 @@ function getId(classes) {
 
 async function reservar() {
   var today = new Date();
-  if(today.getDay() === 1 ){console.log("Lunes " + today.getMinutes());}
+  if(today.getDay() === 3 ){console.log("Miercoles " + today.getMinutes()+" : "+ today.getSeconds());}
 
   let classes = await getClasses();
   let id = getId(classes);
@@ -106,7 +122,7 @@ TaskManager.defineTask(TASK_NAME, () => {
     const receivedNewData = "Simulated fetch " + Math.random()
     console.log("My task ", receivedNewData)
     return receivedNewData
-      ? BackgroundFetch.Result.NewData
+      ? "newData"
       : BackgroundFetch.Result.NoData
   } catch (err) {
     console.log("Error in task ", err)
@@ -115,10 +131,28 @@ TaskManager.defineTask(TASK_NAME, () => {
 })
 
 export default function Home({route}) {
+  const [week, setWeek] = useState([{
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  },
+  {
+    "horarios":[]
+  }
+  ]);
 
-  const user = route.params;
 
-  RegisterBackgroundTask = async () => {
+  const RegisterBackgroundTask = async () => {
     console.log("Registering background task");
     try {
       await BackgroundFetch.registerTaskAsync(TASK_NAME, {
@@ -140,25 +174,7 @@ export default function Home({route}) {
    const changeModalVisibility = (bool) => {
     setisModalVisible(bool);
   };
-  const [week,setWeek] = useState([{
-    "horarios":[]
-  },
-  {
-    "horarios":[]
-  },
-  {
-    "horarios":[]
-  },
-  {
-    "horarios":[]
-  },
-  {
-    "horarios":[]
-  },
-  {
-    "horarios":[]
-  }
-  ])
+
 
   const setData = (horario) => {
     if(week[selectedDate].horarios.length < 2 && week[selectedDate].horarios.indexOf(horario) == -1){
@@ -173,9 +189,6 @@ export default function Home({route}) {
     changeModalVisibility(true)
     setSelectedDate(i)
   } 
-
- 
-
 
   return (
     <>

@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import {getAuth, signInWithEmailAndPassword, updateProfile,createUserWithEmailAndPassword} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebase-config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,10 +15,19 @@ export default function Login() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('user', value)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        storeData(user.displayName)
         navigation.navigate("Index",{user});
       })
       .catch((error) => {
